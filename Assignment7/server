@@ -1,0 +1,58 @@
+const express = require('express');
+const app = express();
+const port = 3000;
+const bodyParser = require("body-parser");
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+const mariadb = require('mariadb');
+
+const pool = mariadb.createPool({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'sample',
+    port: 3306,
+    connectionLimit: 5
+});
+
+const student = function (student) {
+    this.NAME = student.NAME;
+    this.TITLE = student.TITLE;
+    this.CLASS = student.CLASS;
+    this.SECTION = student.SECTION;
+}
+
+// student.getAll = result => {
+//     pool.query("SELECT * FROM student", (err, res) => {
+//         if (err) {
+//             console.log("error: ", err);
+//             result(null, err);
+//             return;
+//         }
+
+//         console.log("students: ", res);
+//         result(null, res);
+//     });
+// };
+
+app.get('/student', (req, res) => {
+    pool.query("SELECT * FROM student", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("students: ", res);
+        result(null, res);
+    });
+});
+
+app.listen(port, () => {
+    console.log('Example app listening at http://localhost:${port}', port);
+});
+
+
+asyn getStudents()
