@@ -21,28 +21,28 @@ io.on('connection', (socket) => {
 
 io.on('connection', (socket) => {
     socket.on('disconnect', () => {
-        console.log('user disconnected');
+      console.log('User disconnected');
     });
 });
 
 io.on('connection', (socket) => {
-    socket.on('Chat message', (msg) => {
-        console.log('Message: ' + msg);
+    socket.on('chat message', (msg) => {
+      console.log('Message: ' + msg);
     });
 });
 
-io.emit('some event', { someProperty: 'some value', otherProperty: 'other value' });
+io.emit('some event', { someProperty: 'some value', otherProperty: 'other value' }); 
 
 io.on('connection', (socket) => {
-    socket.broadcast.emit('Hii');
-});
+    socket.broadcast.emit('hi');
+  });
 
-io.on('connection', (socket) => {
-    socket.on('Chat message =>', (msg) => {
-        io.emit('Chat message =>', msg);
+  io.on('connection', (socket) => {
+    socket.on('chat message', (msg) => {
+      io.emit('chat message', msg);
     });
-});
+  });
 
 server.listen(3000, () => {
-    console.log('listening on server - 3000');
+  console.log('listening on server - 3000');
 });
