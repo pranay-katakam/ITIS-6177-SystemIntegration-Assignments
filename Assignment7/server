@@ -1,58 +1,47 @@
-const express = require('express');
-const app = express();
-const port = 3000;
-const bodyParser = require("body-parser");
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+let express = require('express');
+let app = express();
+let port = 3000;
 
 const mariadb = require('mariadb');
-
 const pool = mariadb.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'sample',
-    port: 3306,
-    connectionLimit: 5
+        host : 'localhost',
+        user : 'root',
+        password: 'root',
+        port: 3306,
+        connectionLimit:5
 });
 
-const student = function (student) {
-    this.NAME = student.NAME;
-    this.TITLE = student.TITLE;
-    this.CLASS = student.CLASS;
-    this.SECTION = student.SECTION;
-}
+app.get('/customers', function(req,resp) {
+        pool.query('SELECT * FROM sample.customer')
+        .then(res => {
+                resp.statusCode = 200;
+                resp.setHeader('Content-Type','Application/json');
+                resp.send(res);
+                })
+        .catch(err => console.error('Error exccuting query', err.stack));
+});
 
-// student.getAll = result => {
-//     pool.query("SELECT * FROM student", (err, res) => {
-//         if (err) {
-//             console.log("error: ", err);
-//             result(null, err);
-//             return;
-//         }
+app.get('/student', function(req,resp) {
+        pool.query('SELECT * FROM sample.student')
+        .then(res => {
+                resp.statusCode = 200;
+                resp.setHeader('Content-Type','Application/json');
+                resp.send(res);
+                })
+        .catch(err => console.error('Error exccuting query', err.stack));
+});
 
-//         console.log("students: ", res);
-//         result(null, res);
-//     });
-// };
-
-app.get('/student', (req, res) => {
-    pool.query("SELECT * FROM student", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log("students: ", res);
-        result(null, res);
-    });
+app.get('/foods', function(req,resp) {
+        pool.query('SELECT * FROM sample.foods')
+        .then(res => {
+                resp.statusCode = 200;
+                resp.setHeader('Content-Type','Application/json');
+                resp.send(res);
+                })
+        .catch(err => console.error('Error exccuting query', err.stack));
 });
 
 app.listen(port, () => {
-    console.log('Example app listening at http://localhost:${port}', port);
+console.log('Example app listening at http://localhost:${port}',port);
+
 });
-
-
-asyn getStudents()

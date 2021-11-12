@@ -3,7 +3,7 @@ const AWS = require('aws-sdk');
 require('dotenv').config();
 const app = express();
 
-let port = 3001;
+let port = 3000;
 let host = 'localhost';
 
 app.use(express.static('public'));
@@ -22,6 +22,11 @@ app.get('/say', (req, res) => {
         if (err) res.send(err, err.stack); // an error occurred
         else res.send(data.Payload);           // successful response
     });
+})
+
+app.get('/',(req, res)=>{
+    console.log("Hello world!");
+    res.send("Hello world!");
 })
 
 app.listen(port, host, () => {
